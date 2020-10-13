@@ -15,16 +15,27 @@ class Employee:
         employee = {'id': self.id, 'name': self.name, 'phone': self.phone, 'age': self.age}
         return employee
 
+    def __repr__(self):
+        return F"Employee: {self.id}, {self.name}, {self.phone}, {self.age}"
+
+    def __eq__(self, other):
+        if not other:
+            return False
+
+        return self.id == other.id and self.name == other.name and \
+               self.phone == other.phone and self.age == other.age
+
 
 employee1 = Employee(1, 'Jane Doe', 972567824516, 23)
 employee2 = Employee(2, 'Luke Main', 972568930980, 25)
+employee3 = Employee(3, 'Noa Du', 972542027816, 23)
 
 
 def load_employees():
     if not os.path.exists(file_path):
         return []
 
-    with open('Employees.json', 'r') as json_file:
+    with open(file_path, 'r') as json_file:
         read_file = json_file.read()
         if read_file == "":
             return []
@@ -33,12 +44,9 @@ def load_employees():
                 employees]
 
 
-load_employees()
-
-
 def save_employees(employees):
     dict_employees = [employee.dict_employee() for employee in employees]
-    with open('Employees.json', 'w') as json_file:
+    with open(file_path, 'w') as json_file:
         json_file.write(json.dumps(dict_employees, indent=2))
 
 
@@ -48,5 +56,18 @@ def add_employee_manually_to_employees_file(employee):
     save_employees(employees)
 
 
-add_employee_manually_to_employees_file(employee1)
-add_employee_manually_to_employees_file(employee2)
+# add_employee_manually_to_employees_file(employee1)
+# add_employee_manually_to_employees_file(employee2)
+# add_employee_manually_to_employees_file(employee3)
+
+
+def delete_employee_manually_from_employees_file(employee):
+    employees = load_employees()
+    new_employees = []
+    for emp in employees:
+        if emp != employee:
+            new_employees.append(emp)
+    save_employees(new_employees)
+
+
+delete_employee_manually_from_employees_file(employee3)
