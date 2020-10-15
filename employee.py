@@ -93,5 +93,13 @@ def delete_employee_manually_from_employees_file(employee):
     save_employees(new_employees)
 
 
+def delete_an_employee_in_employees_file_from_a_file(alist):
+    employees = load_employees()
+    new_employees_list = []
+    for employee in employees:
+        if employee not in alist:
+            new_employees_list.append(employee)
+    save_employees(new_employees_list)
 # delete_employee_manually_from_employees_file(employee3)
-add_employee_manually_from_file_to_employees_file(new_employees)
+# add_employee_manually_from_file_to_employees_file(new_employees)
+delete_an_employee_in_employees_file_from_a_file(new_employees)
