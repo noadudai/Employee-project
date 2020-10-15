@@ -2,7 +2,7 @@ import json
 import os
 
 file_path = 'Employees.json'
-
+new_path = str(input())
 
 class Employee:
     def __init__(self, id, name, phone, age):
@@ -50,9 +50,32 @@ def save_employees(employees):
         json_file.write(json.dumps(dict_employees, indent=2))
 
 
+def load_new_employees():
+    if not os.path.exists(new_path):
+        return []
+
+    with open(new_path, 'r') as json_file:
+        read_file = json_file.read()
+        if read_file == "":
+            return []
+        employees = json.loads(read_file)
+        return [Employee(employee["id"], employee["name"], employee["phone"], employee["age"]) for employee in
+                employees]
+
+
 def add_employee_manually_to_employees_file(employee):
     employees = load_employees()
     employees.append(employee)
+    save_employees(employees)
+
+
+new_employees = load_new_employees()
+
+
+def add_employee_manually_from_file_to_employees_file (alist):
+    employees = load_employees()
+    for employee in alist:
+        employees.append(employee)
     save_employees(employees)
 
 
@@ -70,4 +93,5 @@ def delete_employee_manually_from_employees_file(employee):
     save_employees(new_employees)
 
 
-delete_employee_manually_from_employees_file(employee3)
+# delete_employee_manually_from_employees_file(employee3)
+add_employee_manually_from_file_to_employees_file(new_employees)
