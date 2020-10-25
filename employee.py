@@ -137,4 +137,10 @@ def log_enter(employee_id):
     save_log(log)
 
 
-log_enter(employee3.id)
+def attendance_report_of_an_employee(employee_id):
+    log = load_attendance()
+    employee_report = []
+    for entrance in log:
+        if entrance['id'] == employee_id:
+            employee_report.append(entrance)
+    print(employee_report)
