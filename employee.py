@@ -1,8 +1,11 @@
 import json
 import os
+from datetime import datetime
 
 file_path = 'Employees.json'
-new_path = str(input())
+attendance_file_path = 'Attendance.json'
+# new_path = str(input())
+
 
 class Employee:
     def __init__(self, id, name, phone, age):
@@ -62,6 +65,8 @@ def load_new_employees():
         return [Employee(employee["id"], employee["name"], employee["phone"], employee["age"]) for employee in
                 employees]
 
+####################################################
+
 
 def add_employee_manually_to_employees_file(employee):
     employees = load_employees()
@@ -69,7 +74,7 @@ def add_employee_manually_to_employees_file(employee):
     save_employees(employees)
 
 
-new_employees = load_new_employees()
+# new_employees = load_new_employees()
 
 
 def add_employee_manually_from_file_to_employees_file (alist):
@@ -100,6 +105,36 @@ def delete_an_employee_in_employees_file_from_a_file(alist):
         if employee not in alist:
             new_employees_list.append(employee)
     save_employees(new_employees_list)
-# delete_employee_manually_from_employees_file(employee3)
-# add_employee_manually_from_file_to_employees_file(new_employees)
-delete_an_employee_in_employees_file_from_a_file(new_employees)
+
+
+# delete_an_employee_in_employees_file_from_a_file(new_employees)
+
+#####################################################
+#####################################################
+
+def load_attendance():
+    if not os.path.exists(attendance_file_path):
+        return []
+
+    with open(attendance_file_path, 'r') as json_file:
+        read_file = json_file.read()
+        if read_file == "":
+            return []
+        log = json.loads(read_file)
+        return log
+
+
+def save_log(log_list):
+    with open(attendance_file_path, 'w') as json_file:
+        json_file.write(json.dumps(log_list, indent=2))
+
+
+def log_enter(employee_id):
+    log = load_attendance()
+    now = datetime.now()
+    entrance = {'id' : employee_id, 'start work at: ': now.strftime("%Y-%m-%d %H:%M")}
+    log.append(entrance)
+    save_log(log)
+
+
+log_enter(employee3.id)
