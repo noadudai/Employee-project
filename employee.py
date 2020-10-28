@@ -1,6 +1,6 @@
 import json
 import os
-from datetime import datetime
+import datetime
 
 file_path = 'Employees.json'
 attendance_file_path = 'Attendance.json'
@@ -77,7 +77,7 @@ def add_employee_manually_to_employees_file(employee):
 # new_employees = load_new_employees()
 
 
-def add_employee_manually_from_file_to_employees_file (alist):
+def add_employee_manually_from_file_to_employees_file(alist):
     employees = load_employees()
     for employee in alist:
         employees.append(employee)
@@ -131,10 +131,16 @@ def save_log(log_list):
 
 def log_enter(employee_id):
     log = load_attendance()
-    now = datetime.now()
-    entrance = {'id' : employee_id, 'start work at: ': now.strftime("%Y-%m-%d %H:%M")}
+    today = datetime.date.today()
+    time = datetime.datetime.now().time()
+    entrance = {'id': employee_id, 'day': str(today), 'start work at: ': str(time)}
     log.append(entrance)
     save_log(log)
+
+
+# log_enter(employee1.id)
+# log_enter(employee2.id)
+# log_enter(employee3.id)
 
 
 def attendance_report_of_an_employee(employee_id):
@@ -144,3 +150,16 @@ def attendance_report_of_an_employee(employee_id):
         if entrance['id'] == employee_id:
             employee_report.append(entrance)
     print(employee_report)
+
+
+def attendance_report_of_month(month):
+    log = load_attendance()
+    month_log = []
+    for entrance in log:
+        day = datetime.date.fromisoformat(entrance['day'])
+        if day.month == month:
+            month_log.append(entrance)
+    print(month_log)
+
+
+attendance_report_of_month(10)
