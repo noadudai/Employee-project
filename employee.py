@@ -152,14 +152,21 @@ def attendance_report_of_an_employee(employee_id):
     print(employee_report)
 
 
-def attendance_report_of_month(month):
+def attendance_report_of_month(month, year):
     log = load_attendance()
     month_log = []
     for entrance in log:
         day = datetime.date.fromisoformat(entrance['day'])
-        if day.month == month:
+        if day.month == month and day.year == year:
             month_log.append(entrance)
     print(month_log)
 
 
-attendance_report_of_month(10)
+def attendance_report_for_late_employees(minute):
+    log = load_attendance()
+    late_attendance_report = []
+    for entrance in log:
+        time = datetime.time.fromisoformat(entrance['start work at: '])
+        if time.minute >= minute:
+            late_attendance_report.append(entrance)
+    print(late_attendance_report)
